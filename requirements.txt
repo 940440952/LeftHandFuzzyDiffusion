@@ -1,0 +1,6 @@
+openpyxl
+transformers
+ultralytics
+diffusers
+accelerate
+Pillow
