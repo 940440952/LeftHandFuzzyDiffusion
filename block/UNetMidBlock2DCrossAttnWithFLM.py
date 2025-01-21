@@ -24,7 +24,7 @@ class UNetMidBlock2DCrossAttnWithFLM(nn.Module):
         out_channels = out_channels or in_channels
         self.attentions = nn.ModuleList()
         self.resnets = nn.ModuleList()
-        # self.flms = nn.ModuleList()
+        self.flms = nn.ModuleList()
 
         # Add initial Resnet block
         self.resnets.append(ResnetBlock2D(
@@ -49,7 +49,7 @@ class UNetMidBlock2DCrossAttnWithFLM(nn.Module):
             ))
 
             # Add FLM block after each attention layer
-            # self.flms.append(FuzzyLearningModule(out_channels))
+            self.flms.append(FuzzyLearningModule(out_channels))
 
             # Add Resnet block
             self.resnets.append(ResnetBlock2D(
@@ -72,8 +72,8 @@ class UNetMidBlock2DCrossAttnWithFLM(nn.Module):
         hidden_states = self.resnets[0](hidden_states, temb)
 
         # Iterate over attentions, FLMs, and resnets
-        # for attn, flm, resnet in zip(self.attentions, self.flms, self.resnets[1:]):
-        for attn, resnet in zip(self.attentions,  self.resnets[1:]):
+        for attn, flm, resnet in zip(self.attentions, self.flms, self.resnets[1:]):
+        # for attn, resnet in zip(self.attentions,  self.resnets[1:]):
             # Cross attention
             hidden_states = attn(
                 hidden_states,
@@ -84,7 +84,7 @@ class UNetMidBlock2DCrossAttnWithFLM(nn.Module):
             )[0]
 
             # Fuzzy learning module
-            # hidden_states = flm(hidden_states)
+            hidden_states = flm(hidden_states)
 
             # Residual block
             hidden_states = resnet(hidden_states, temb)
