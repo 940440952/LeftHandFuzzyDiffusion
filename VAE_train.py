@@ -18,9 +18,9 @@ from huggingface_hub import login
 from skimage.metrics import structural_similarity as ssim
 
 # 使用生成的 Access Token 登录
-login(token="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")
+login(token="******************")
 
-os.environ["WANDB_API_KEY"] = "45b203daa45632bc5e1189b3ae09ddd56c4c9a1e"
+os.environ["WANDB_API_KEY"] = "***********************"
 
 
 # os.environ["WANDB_MODE"] = "offline"
